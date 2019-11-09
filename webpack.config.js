@@ -1,6 +1,7 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackRootPlugin = require('html-webpack-root-plugin')
 
 module.exports = {
   mode: 'development',
@@ -27,21 +28,21 @@ module.exports = {
           }
         }
       },
-      // {
-      //   test: /\.(sa|sc|c)ss$/,
-      //   use: [
-      //     // {
-      //     //   loader: MiniCssExtractPlugin.loader
-      //     // },
-      //     'css-loader',
-      //     {
-      //       loader: "sass-loader",
-      //       options: {
-      //         implementation: require("sass")
-      //       }
-      //     }
-      //   ]
-      // }
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          // {
+          //   loader: MiniCssExtractPlugin.loader
+          // },
+          'css-loader',
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass")
+            }
+          }
+        ]
+      }
     ]
   },
 
@@ -49,6 +50,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Hello React'
     }),
+    new HtmlWebpackRootPlugin('root'),
     new MiniCssExtractPlugin({
       filename: 'app.css'
     })
