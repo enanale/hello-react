@@ -48,7 +48,7 @@ class AddItemForm extends React.Component {
 }
 
 class App extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       things: ['A', 'B', 'C!']

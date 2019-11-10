@@ -21,12 +21,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          'eslint-loader'
+        ]
       },
       {test:/\.(png|jpe?g|gif)$/i, use: {loader:'file-loader'}},
       {test:/\.svg$/, use: {loader:'url-loader'}},
