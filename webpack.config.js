@@ -28,6 +28,12 @@ module.exports = {
           }
         }
       },
+      {test:/\.(png|jpe?g|gif)$/i, use: {loader:'file-loader'}},
+      {test:/\.svg$/, use: {loader:'url-loader'}},
+      {test:/\.woff$/, use: {loader:'url-loader'}},
+      {test:/\.woff2$/, use: {loader:'url-loader'}},
+      {test:/\.[ot]tf$/, use: {loader:'url-loader'}},
+      {test:/\.eot$/, use: {loader:'url-loader'}},
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
