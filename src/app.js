@@ -3,12 +3,10 @@ import React from 'react'
 import h from 'react-hyperscript'
 import './styles/app.scss'
 
-class ThingList extends React.Component {
-  render () {
-    return h('ul', this.props.things.map(i => (
-      h(ThingListItem, {name: i})
-    )))
-  }
+function ThingList (props) {
+  return h('ul', props.things.map(i => (
+    h(ThingListItem, {name: i})
+  )))
 }
 
 function ThingListItem (props) {
