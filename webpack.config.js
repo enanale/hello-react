@@ -31,14 +31,15 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          // {
-          //   loader: MiniCssExtractPlugin.loader
-          // },
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
           'css-loader',
           {
             loader: "sass-loader",
             options: {
-              implementation: require("sass")
+              sourceMap: true,
+              // implementation: require("sass")
             }
           }
         ]
