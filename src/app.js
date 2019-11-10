@@ -1,20 +1,17 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
 import h from 'react-hyperscript'
-import { Input, Button } from 'semantic-ui-react'
+import { List, Item, Input, Button, Container, Header } from 'semantic-ui-react'
 
 import './styles/app.scss'
 import 'semantic-ui-css/semantic.min.css'
 
 function ThingList (props) {
-  return h('ul.ui.list', props.things.map(i => (
-    h(ThingListItem, {name: i})
+  return h(List, {className: 'divided'}, props.things.map(i => (
+    h(Item, `Item ${i}`)
   )))
 }
 
-function ThingListItem (props) {
-  return h('li.item', {key: props.name}, `Item ${props.name}`)
-}
 
 class AddItemForm extends React.Component {
   constructor (props) {
@@ -41,6 +38,8 @@ class AddItemForm extends React.Component {
         onChange: this.onInputChange.bind(this)
       }),
       h(Button, {
+        size: 'large',
+        color: 'green',
         onClick: this.onAddItem.bind(this)
       }, 'Add Item' )
     ])
@@ -61,8 +60,15 @@ class App extends React.Component {
   }
 
   render () {
-    return h('.ui.container', [
-      h('h1.ui.center.aligned.header', `Hello, world ${this.state.things.length}`),
+    return h(Container, [
+      h(Header, {
+        as: 'h1',
+        content: `Hello, world ${this.state.things.length}`,
+        inverted: true,
+        color: 'red',
+        size: 'huge',
+        textAlign: 'center'
+      }),
       h(ThingList, {things: this.state.things, className: 'thinglist'}),
       h(AddItemForm, {addItem: this.addItem.bind(this), className: 'additem'})
     ])
