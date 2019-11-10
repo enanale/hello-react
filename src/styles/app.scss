@@ -1,13 +1,10 @@
-// body {
-//   background-color: #EEF;
-// }
-//
-// .additem {
-//   display: flex;
-//   input {
-//     width: 300px;
-//   }
-//   button {
-//     background-color: #FEE;
-//   }
-// }
+body {
+  background-color: #EEF;
+  padding-top: 1em;
+}
+
+.things {
+  .icon.delete {
+    float: right;
+  }
+}

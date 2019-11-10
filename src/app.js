@@ -2,11 +2,12 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import h from 'react-hyperscript'
 import {
-  Segment, Item, Input, Button, Container, Header
+  Segment, Item, Input, Icon, Container, Header
   } from 'semantic-ui-react'
 
-import './styles/app.scss'
 import 'semantic-ui-css/semantic.min.css'
+import './styles/app.scss'
+
 
 import AddItemForm from './components/AddItemForm'
 
@@ -16,10 +17,18 @@ class App extends React.Component {
     this.state = {
       things: ['A', 'B', 'C!']
     }
+
+    this.addItem = this.addItem.bind(this)
   }
 
   addItem (s) {
     this.state.things.push(s)
+    this.setState({things: this.state.things})
+  }
+
+  deleteItem (index) {
+    console.log('remove', index)
+    this.state.things.splice(index, 1)
     this.setState({things: this.state.things})
   }
 
@@ -36,10 +45,17 @@ class App extends React.Component {
           backgroundColor: '#22A',
         }
       }),
-      h(Segment.Group, this.state.things.map(i => (
-        h(Segment, {content: `Item: ${i}`})
+      h(Segment.Group, {className: 'things'}, this.state.things.map((thing, i) => (
+        h(Segment, {key: i}, [
+          `Item: ${thing}`,
+          h(Icon, {
+            className: 'delete',
+            // className: 'mini',
+            onClick: () => this.deleteItem(i)
+          })
+        ])
       ))),
-      h(AddItemForm, {addItem: this.addItem.bind(this)})
+      h(AddItemForm, {addItem: this.addItem})
     ])
   }
 }
