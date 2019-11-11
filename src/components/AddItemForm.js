@@ -1,31 +1,36 @@
 import React from 'react'
 import h from 'react-hyperscript'
-import { Input, Button, Grid } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { Input, Grid } from 'semantic-ui-react'
 
 import './AddItemForm.scss'
 
 export default class AddItemForm extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {inputValue: ''}
+    this.state = { inputValue: '' }
     this.addItem = props.addItem
-
-    // bind event handlers
-    this.onAddItem = this.onAddItem.bind(this)
-    this.onInputChange = this.onInputChange.bind(this)
   }
 
   onAddItem () {
-    this.addItem(this.state.inputValue)
-    this.setState({inputValue: ''})
+    const { inputValue } = this.state
+    this.addItem(inputValue)
+    this.setState({ inputValue: '' })
   }
 
   onInputChange (event) {
-    this.setState({inputValue: event.target.value})
+    this.setState({ inputValue: event.target.value })
   }
 
-  render (props) {
-    console.log('render')
+  onInputKeyDown (event) {
+    if (event.key === 'Enter') {
+      this.onAddItem()
+    }
+  }
+
+  render () {
+    const { inputValue } = this.state
+
     return h(Grid, [
       h(Input, {
         className: 'AddItemForm',
@@ -33,11 +38,20 @@ export default class AddItemForm extends React.Component {
         action: {
           content: 'Add Item',
           color: 'green',
-          onClick: this.onAddItem
+          onClick: this.onAddItem.bind(this)
         },
-        value: this.state.inputValue,
-        onChange: this.onInputChange
+        value: inputValue,
+        onChange: this.onInputChange.bind(this),
+        onKeyDown: this.onInputKeyDown.bind(this)
       })
     ])
   }
+}
+
+AddItemForm.propTypes = {
+  addItem: PropTypes.func
+}
+
+AddItemForm.defaultProps = {
+  addItem: () => {}
 }
