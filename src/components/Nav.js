@@ -23,12 +23,3 @@ export default class Nav extends React.Component {
     )
   }
 }
-
-// Nav.propTypes = {
-//   location: PropTypes.shape({
-//     pathname: PropTypes.string.isRequired
-//   }).isRequired
-// }
-//
-// const NavWithRouter = withRouter(Nav)
-// export default NavWithRouter
