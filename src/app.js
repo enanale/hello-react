@@ -1,5 +1,10 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
+import PropTypes from 'prop-types'
+import {
+  BrowserRouter as Router
+} from 'react-router-dom'
+
 import h from 'react-hyperscript'
 import {
   Segment, Icon, Container, Header
@@ -9,27 +14,41 @@ import 'semantic-ui-css/semantic.min.css'
 import './styles/app.scss'
 
 import AddItemForm from './components/AddItemForm'
+import Nav from './components/Nav'
+
+const model = {
+  initial: {
+    things: ['A', 'B', 'C!']
+  },
+  actions: (state) => ({
+    addItem: (item) => {
+      state.things.push(item)
+      return state
+    },
+    deleteItem: (index) => {
+      state.things.splice(index, 1)
+      return state.things
+    }
+  })
+}
+
+function bindMutation (component, actions, actionName) {
+  const callNamedAction = (...args) => {
+    component.setState(actions[actionName](...args))
+  }
+  return callNamedAction.bind(component)
+}
 
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      things: ['A', 'B', 'C!']
-    }
+    const { state, actions } = props
 
-    this.addItem = this.addItem.bind(this)
-  }
+    this.state = { ...state }
+    const stateActions = actions(this.state)
 
-  addItem (s) {
-    const { things } = this.state
-    things.push(s)
-    this.setState({ things })
-  }
-
-  deleteItem (index) {
-    const { things } = this.state
-    things.splice(index, 1)
-    this.setState({ things })
+    this.addItem = bindMutation(this, stateActions, 'addItem')
+    this.deleteItem = bindMutation(this, stateActions, 'deleteItem')
   }
 
   render () {
@@ -38,14 +57,10 @@ class App extends React.Component {
     return h(Container, [
       h(Header, {
         as: 'h1',
+        className: 'hello',
         content: `Hello, world ${things.length}`,
         textAlign: 'center',
-        inverted: true,
-        style: {
-          paddingTop: '3em',
-          paddingBottom: '3em',
-          backgroundColor: '#22A'
-        }
+        inverted: true
       }),
       h(Segment.Group, { className: 'things' }, things.map((thing, i) => (
         h(Segment, { key: i }, [
@@ -62,4 +77,19 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(h(App), document.getElementById('root'))
+App.propTypes = {
+  state: PropTypes.shape({
+    things: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired,
+  actions: PropTypes.func.isRequired
+}
+
+const { initial, actions } = model
+
+ReactDOM.render(
+  h(Router, [
+    h(Nav),
+    h(App, { state: initial, actions })
+  ]),
+  document.getElementById('root')
+)
