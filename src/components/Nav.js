@@ -1,8 +1,7 @@
 import React from 'react'
 import h from 'react-hyperscript'
-import PropTypes from 'prop-types'
 import { Menu } from 'semantic-ui-react'
-import { Link, withRouter } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const ROUTES = [
   { name: 'home', path: '/' },
@@ -10,36 +9,26 @@ const ROUTES = [
   { name: 'page2', path: '/page2' }
 ]
 
-class Nav extends React.Component {
-  constructor (props) {
-    super(props)
-    const { location } = this.props
-    const currentRoute = ROUTES.find((r) => (r.path === location.pathname))
-    this.state = { activeItem: currentRoute ? currentRoute.name : 'home' }
-  }
-
+export default class Nav extends React.Component {
   render () {
-    const { activeItem } = this.state
-
     return (
-      h(Menu, { className: 'pointing secondary' }, ROUTES.map((page) => (
+      h(Menu, { className: 'pointing' }, ROUTES.map((page) => (
         h(Menu.Item, {
           name: page.name,
-          as: Link,
+          as: NavLink,
           to: page.path,
-          active: activeItem === page.name,
-          onClick: () => this.setState({ activeItem: page.name })
+          exact: true
         })
       )))
     )
   }
 }
 
-Nav.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
-  }).isRequired
-}
-
-const NavWithRouter = withRouter(Nav)
-export default NavWithRouter
+// Nav.propTypes = {
+//   location: PropTypes.shape({
+//     pathname: PropTypes.string.isRequired
+//   }).isRequired
+// }
+//
+// const NavWithRouter = withRouter(Nav)
+// export default NavWithRouter
