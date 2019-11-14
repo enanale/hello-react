@@ -14,7 +14,8 @@ module.exports = {
 
   devServer: {
     contentBase: './dist',
-    stats: 'minimal'
+    stats: 'minimal',
+    historyApiFallback: true
   },
 
   module: {

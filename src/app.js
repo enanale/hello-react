@@ -2,7 +2,9 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  BrowserRouter as Router
+  BrowserRouter as Router,
+  Switch,
+  Route
 } from 'react-router-dom'
 
 import h from 'react-hyperscript'
@@ -86,10 +88,26 @@ App.propTypes = {
 
 const { initial, actions } = model
 
+function Page1 () {
+  return h('h2', 'Page1')
+}
+
+function Page2 () {
+  return h('h2', 'Page2')
+}
+
 ReactDOM.render(
   h(Router, [
     h(Nav),
-    h(App, { state: initial, actions })
+    h(Switch, [
+      h(Route, { path: '/page1' },
+        h(Page1)),
+      h(Route, { path: '/page2' },
+        h(Page2)),
+      h(Route, { path: '/' },
+        // h(Page1)),
+        h(App, { state: initial, actions }))
+    ])
   ]),
   document.getElementById('root')
 )
